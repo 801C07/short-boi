@@ -1,234 +1,312 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <title>Financial Data: {{data.symbol}}</title>
     <style>
-        .topLevel {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .topLevel {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
 
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #f2f2f2;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            width: 100px;
-            height: 100px;
-            color:darkblue;
-        }
+      .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        width: 100px;
+        height: 100px;
+        color: darkblue;
+      }
 
-        .column {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .news {
+        width: 50%;
+        overflow: scroll;
+        padding: 10px;
+        border-radius: 5px;
+        max-height: 710px;
+      }
 
-        .bg-danger {
-            background-color: #f44949;
-        }
+      .article {
+        padding: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: last baseline;
+      }
 
-        .bg-warning {
-            background-color: #f3f351;
-        }
+      .news ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .bg-success {
-            background-color: #3d9c3d;
-        }
+      .news li {
+        margin-bottom: 10px;
+      }
 
-        .card h3 {
-            margin-top: 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
+      .news a {
+        color: darkblue;
+        text-decoration: none;
+        font-size: 16px;
+      }
 
-        .card p {
-            margin-bottom: 0;
-            font-size: 16px;
-        }
+      .time {
+        /* top left of parent span */
 
-        .stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
+        font-size: 14px;
+        color: #b5b4b4;
+      }
 
-        .stats p {
-            width: 200px;
-            margin-bottom: 10px;
-        }
+      .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .company-info {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f2f2f2;
-            border-radius: 5px;
-        }
+      .bg-danger {
+        background-color: #f44949;
+      }
 
-        .company-info h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+      .bg-warning {
+        background-color: #f3f351;
+      }
 
-        .company-info p {
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
+      .bg-success {
+        background-color: #3d9c3d;
+      }
 
-        .company-info ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+      .card h3 {
+        margin-top: 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
 
-        .company-info li {
-            margin-bottom: 10px;
-        }
+      .card p {
+        margin-bottom: 0;
+        font-size: 16px;
+      }
 
-        .financial-data {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f2f2f2;
-            border-radius: 5px;
-        }
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 20px;
+      }
 
-        .financial-data h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+      .stats .card {
+        background-color: #e5b9b9;
+      }
 
-        .financial-data p {
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
+      .company-info {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #2077B5;
-            color: #b5b4b4;
-        }
+      .company-info h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
 
-        body h2{
-            margin: 10px;
-        }
+      .company-info p {
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+
+      .company-info ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .company-info li {
+        margin-bottom: 10px;
+      }
+
+      .financial-data {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+      }
+
+      .financial-data h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .financial-data p {
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #2077b5;
+        color: #b5b4b4;
+      }
+
+      body h2 {
+        margin: 10px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Add your content here -->
     <h2>Market Data: {{data.symbol}}</h2>
     <div class="topLevel">
-        <div class="column">
-            <div class="card {{data.insiderColor}}" id="{{id}}">
-                <h3>Insiders:</h3>
-                <p>{{ data.heldPercentInsidersDisplay }}</p>
-            </div>
-    
-            <div class="card {{data.institutionColor}}">
-                <h3>Institutions:</h3>
-                <p>{{ data.heldPercentInstitutionsDisplay }}</p>
-            </div>
-    
-            <div class="card {{data.epsColor}}">
-                <h3>EPS:</h3>
-                <p>{{ data.trailingEps }}</p>
-            </div>
-
-            <!-- full time employees -->
-            <div class="card {{data.employeesColor}}">
-                <h3>Employees:</h3>
-                <p>{{ data.fullTimeEmployees }}</p>
-            </div>
-
-            <!-- market cap -->
-            <div class="card {{data.marketCapColor}}">
-                <h3>Market Cap:</h3>
-                <p>{{ data.marketCapDisplay }}</p>
-            </div>  
-
-
+      <div class="column">
+        <div class="card {{data.insiderColor}}" id="{{id}}">
+          <h3>Insiders:</h3>
+          <p>{{ data.heldPercentInsidersDisplay }}</p>
         </div>
-        <img src="/static/last_year.png" style="width: 800px; height: 500px;">
-        <img src="/static/intraday.png" style="width: 800px; height: 500px;">
-        
-        <div class="stats">
-            <p>Fifty Day Average: {{ data.fiftyDayAverage }}</p>
-            <p>Two Hundred Day Average: {{ data.twoHundredDayAverage }}</p>
-            <p>Next Fiscal Year End: {{ data.nextFiscalYearEnd }}</p>
-            <p>Most Recent Quarter: {{ data.mostRecentQuarter }}</p>
-            <p>Trailing EPS: {{ data.trailingEps }}</p>
-            <p>Enterprise To Revenue: {{ data.enterpriseToRevenue }}</p>
-            <p>Enterprise To EBITDA: {{ data.enterpriseToEbitda }}</p>
+
+        <div class="card {{data.institutionColor}}">
+          <h3>Institutions:</h3>
+          <p>{{ data.heldPercentInstitutionsDisplay }}</p>
         </div>
+
+        <div class="card {{data.epsColor}}">
+          <h3>EPS:</h3>
+          <p>{{ data.trailingEps }}</p>
+        </div>
+
+        <!-- full time employees -->
+        <div class="card {{data.employeesColor}}">
+          <h3>Employees:</h3>
+          <p>{{ data.fullTimeEmployees }}</p>
+        </div>
+
+        <!-- market cap -->
+        <div class="card {{data.marketCapColor}}">
+          <h3>Market Cap:</h3>
+          <p>{{ data.marketCapDisplay }}</p>
+        </div>
+      </div>
+      <div class="column">
+        <img
+          src="/static/last_year.png"
+          style="width: 700px; height: 300px; margin-bottom: 10px"
+        />
+        <img src="/static/intraday.png" style="width: 700px; height: 300px" />
+      </div>
+
+      <div class="column news">
+        <ul>
+          {% for article in news %}
+          <li>
+            <div class="article">
+              <span class="time"
+                >{{ article.publisher }}: {{ article.providerPublishTimeDisplay
+                }}</span
+              >
+              <a href="{{ article.link }}" target="_blank"
+                >{{ article.title }}</a
+              >
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    
+
+    <div class="stats">
+      <div class="card">
+        <h3>Current Price:</h3>
+        <p>{{ data.currentPrice }}</p>
+      </div>
+      <div class="card">
+        <h3>Fifty Day Average:</h3>
+        <p>{{ data.fiftyDayAverage }}</p>
+      </div>
+
+      <div class="card">
+        <h3>200D Average:</h3>
+        <p>{{ data.twoHundredDayAverage }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Most Recent Quarter:</h3>
+        <p>{{ data.mostRecentQuarterDisplay }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Enterprise To Revenue:</h3>
+        <p>{{ data.enterpriseToRevenue }}</p>
+      </div>
+
+      <div class="card">
+        <h3>Enterprise To EBITDA:</h3>
+        <p>{{ data.enterpriseToEbitda }}</p>
+      </div>
+    </div>
 
     <div class="company-info">
-        <h2>Company Information</h2>
-        <p>Address 1: {{ data.address1 }}</p>
-        <p>Address 2: {{ data.address2 }}</p>
-        <p>City: {{ data.city }}</p>
-        <p>Country: {{ data.country }}</p>
-        <p>Phone: {{ data.phone }}</p>
-        <p>Fax: {{ data.fax }}</p>
-        <p>Website: {{ data.website }}</p>
-        <p>Industry: {{ data.industry }}</p>
-        <p>Sector: {{ data.sector }}</p>
-        <p>Long Business Summary: {{ data.longBusinessSummary }}</p>
-        <p>Full Time Employees: {{ data.fullTimeEmployees }}</p>
-        <h2>Company Officers</h2>
-        <ul>
-            {% for officer in data.companyOfficers %}
-                <li>
-                    <p>Name: {{ officer.name }}</p>
-                    <p>Age: {{ officer.age }}</p>
-                    <p>Title: {{ officer.title }}</p>
-                    <p>Year Born: {{ officer.yearBorn }}</p>
-                    <p>Exercised Value: {{ officer.exercisedValue }}</p>
-                    <p>Unexercised Value: {{ officer.unexercisedValue }}</p>
-                </li>
-            {% endfor %}
-        </ul>
+      <h2>Company Information</h2>
+      <p>Address 1: {{ data.address1 }}</p>
+      <p>Address 2: {{ data.address2 }}</p>
+      <p>City: {{ data.city }}</p>
+      <p>Country: {{ data.country }}</p>
+      <p>Phone: {{ data.phone }}</p>
+      <p>Fax: {{ data.fax }}</p>
+      <p>Website: {{ data.website }}</p>
+      <p>Industry: {{ data.industry }}</p>
+      <p>Sector: {{ data.sector }}</p>
+      <p>Long Business Summary: {{ data.longBusinessSummary }}</p>
+      <p>Full Time Employees: {{ data.fullTimeEmployees }}</p>
+      <h2>Company Officers</h2>
+      <ul>
+        {% for officer in data.companyOfficers %}
+        <li>
+          <p>Name: {{ officer.name }}</p>
+          <p>Age: {{ officer.age }}</p>
+          <p>Title: {{ officer.title }}</p>
+          <p>Year Born: {{ officer.yearBorn }}</p>
+          <p>Exercised Value: {{ officer.exercisedValue }}</p>
+          <p>Unexercised Value: {{ officer.unexercisedValue }}</p>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
 
     <div class="financial-data">
-        <h2>Financial Data</h2>
-        <p>Current Price: {{ data.currentPrice }}</p>
-        <p>Recommendation Key: {{ data.recommendationKey }}</p>
-        <p>Total Cash: {{ data.totalCash }}</p>
-        <p>Total Cash Per Share: {{ data.totalCashPerShare }}</p>
-        <p>EBITDA: {{ data.ebitda }}</p>
-        <p>Total Debt: {{ data.totalDebt }}</p>
-        <p>Quick Ratio: {{ data.quickRatio }}</p>
-        <p>Current Ratio: {{ data.currentRatio }}</p>
-        <p>Total Revenue: {{ data.totalRevenue }}</p>
-        <p>Debt To Equity: {{ data.debtToEquity }}</p>
-        <p>Revenue Per Share: {{ data.revenuePerShare }}</p>
-        <p>Return On Assets: {{ data.returnOnAssets }}</p>
-        <p>Return On Equity: {{ data.returnOnEquity }}</p>
-        <p>Free Cashflow: {{ data.freeCashflow }}</p>
-        <p>Operating Cashflow: {{ data.operatingCashflow }}</p>
-        <p>Revenue Growth: {{ data.revenueGrowth }}</p>
-        <p>Gross Margins: {{ data.grossMargins }}</p>
-        <p>EBITDA Margins: {{ data.ebitdaMargins }}</p>
-        <p>Operating Margins: {{ data.operatingMargins }}</p>
-        <p>Financial Currency: {{ data.financialCurrency }}</p>
-        <p>Trailing PEG Ratio: {{ data.trailingPegRatio }}</p>
+      <h2>Financial Data</h2>
+      <p>Current Price: {{ data.currentPrice }}</p>
+      <p>Recommendation Key: {{ data.recommendationKey }}</p>
+      <p>Total Cash: {{ data.totalCash }}</p>
+      <p>Total Cash Per Share: {{ data.totalCashPerShare }}</p>
+      <p>EBITDA: {{ data.ebitda }}</p>
+      <p>Total Debt: {{ data.totalDebt }}</p>
+      <p>Quick Ratio: {{ data.quickRatio }}</p>
+      <p>Current Ratio: {{ data.currentRatio }}</p>
+      <p>Total Revenue: {{ data.totalRevenue }}</p>
+      <p>Debt To Equity: {{ data.debtToEquity }}</p>
+      <p>Revenue Per Share: {{ data.revenuePerShare }}</p>
+      <p>Return On Assets: {{ data.returnOnAssets }}</p>
+      <p>Return On Equity: {{ data.returnOnEquity }}</p>
+      <p>Free Cashflow: {{ data.freeCashflow }}</p>
+      <p>Operating Cashflow: {{ data.operatingCashflow }}</p>
+      <p>Revenue Growth: {{ data.revenueGrowth }}</p>
+      <p>Gross Margins: {{ data.grossMargins }}</p>
+      <p>EBITDA Margins: {{ data.ebitdaMargins }}</p>
+      <p>Operating Margins: {{ data.operatingMargins }}</p>
+      <p>Financial Currency: {{ data.financialCurrency }}</p>
+      <p>Trailing PEG Ratio: {{ data.trailingPegRatio }}</p>
     </div>
-</body>
+  </body>
 </html>
