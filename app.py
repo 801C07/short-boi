@@ -39,6 +39,25 @@ def get_financial_data(symbol):
     else:
         stock.info['epsColor'] = 'bg-danger'
 
+    
+    if stock.info['fullTimeEmployees'] > 500:
+        stock.info['employeesColor'] = 'bg-danger'
+    elif stock.info['fullTimeEmployees'] > 100:
+        stock.info['employeesColor'] = 'bg-warning'
+    else:
+        stock.info['employeesColor'] = 'bg-success'
+
+    if stock.info['marketCap'] > 1e9:
+        stock.info['marketCapColor'] = 'bg-danger'
+    elif stock.info['marketCap'] > 1e8:
+        stock.info['marketCapColor'] = 'bg-warning'
+    else:
+        stock.info['marketCapColor'] = 'bg-success'
+
+    stock.info['marketCapDisplay'] = format_large_number(stock.info['marketCap'])
+
+
+
 
     # make a line chart of the daily stock price over last year
     hist = stock.history(period="1y")
@@ -88,6 +107,17 @@ def get_financial_data(symbol):
 
     # Render the template with the financial data
     return render_template('financial_data.html', data=stock.info)
+
+def format_large_number(num):
+    if num >= 1_000_000_000:  # Greater than or equal to 1 billion
+        formatted_num = f"{num / 1_000_000_000:.1f}B"
+    elif num >= 1_000_000:  # Greater than or equal to 1 million
+        formatted_num = f"{num / 1_000_000:.1f}M"
+    elif num >= 1_000:  # Greater than or equal to 1 thousand
+        formatted_num = f"{num / 1_000:.1f}K"
+    else:
+        formatted_num = str(num)
+    return formatted_num
 
 if __name__ == "__main__":
     app.run()
