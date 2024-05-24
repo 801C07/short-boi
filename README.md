@@ -1,5 +1,5 @@
 # Short Boi
-This is a small application designed to provide information on stocks to help identify stocks that would be good to short.
+This is a small application designed to help identify stocks that would be good to short.
 
 ## Setup:
 
