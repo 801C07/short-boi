@@ -3,10 +3,10 @@ This is a small application designed to provide information on stocks to help id
 
 ## Setup:
 
-This is a python flask app, I typically run in debug mode, so I can see the changes after I save it. It is not intended or ready to be run in production environment for several reasons, but is perfectly safe enough to run locally.
+This is a python 3 flask app, I typically run in debug mode, so I can see the changes after I save it. It is not intended or ready to be run in production environment for several reasons, but is perfectly safe enough to run locally.
 
 ### Pip:
-use pip to install the following packages : `yf, flask, pandas, requests, matplotlib`
+use pip to install the following packages in a virtual env: `yf, flask, pandas, requests, matplotlib` [to setup virtual env](https://docs.python.org/3/library/venv.html#creating-virtual-environments)
 
 
 ### ENV:
