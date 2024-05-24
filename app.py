@@ -1,5 +1,5 @@
 import yfinance as yf
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import pandas as pd
 import requests
 
@@ -24,10 +24,9 @@ def index():
     for ticker in tickers:
         if ticker not in data:
             data[ticker] = get_financial_data(ticker)
+            data[ticker].info['bg'] = 'bg-unset'
     
     #render the template with the tickers and data
-
-    print(data['ADN'].info['insiderColor'])
 
 
     return render_template('index.html', tickers=tickers, data=data)
@@ -39,7 +38,7 @@ def getGainLossTickers():
     #     'accept': '*/*',
     # }
     
-    return ['ADN', 'TIRX', 'CTNT', 'SPWR', 'HOLO', 'MAXN', 'KOSS', 'PLUG', 'BIG', 'TUP', 'VUZI', 'SPCE', 'MVIS', 'VUZI', 'PACB', 'HKD', 'DCTH', 'NOVA', 'TMCI', 'BYND']
+    return ['ISSC', 'AGBA', 'ONMD', 'OKLO', 'OLB', 'RYDE', 'APM']
 
 
 def get_financial_data(symbol, renderGraphs=False, fetchNews=False):
@@ -90,6 +89,7 @@ def get_financial_data(symbol, renderGraphs=False, fetchNews=False):
         plt.title(symbol + ' Closing Price (Last 1 year)')
         plt.xticks(hist['Date'][::50], rotation=45)
         plt.tight_layout()
+
         plt.savefig('static/last_year.png')
         plt.close()
 
@@ -125,6 +125,22 @@ def financial_data(symbol):
 
     # Render the template with the financial data
     return render_template('financial_data.html', data=stock.info, news=stock.news)
+
+#define PUT /<symbol> to update the data for a given ticker
+@app.route('/<symbol>', methods=['PUT'])
+def update_financial_data(symbol):
+    updateData = request.get_json(force=True)
+    print(updateData)
+
+    if symbol in data:
+        data[symbol].info['bg'] = updateData['status']
+    else:
+        data[symbol] = get_financial_data(symbol)
+        data[symbol].info['bg'] = updateData['status']
+    return "OK"
+
+
+
 
 def format_large_number(num):
     if num >= 1_000_000_000:

@@ -164,7 +164,20 @@
       body h2 {
         margin: 10px;
       }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
     </style>
+    <script
+      type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    ></script>
+
+    <script type="text/javascript" src="static/js/scripts.js"></script>
   </head>
   <body>
     <!-- Add your content here -->
@@ -207,6 +220,11 @@
       </div>
 
       <div class="column news">
+        <div class="row">
+          <button id="markDanger">Danger</button>
+          <button id="markWarning">Warning</button>
+          <button id="markSuccess">Success</button>
+        </div>
         <ul>
           {% for article in news %}
           <li>

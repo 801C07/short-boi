@@ -13,10 +13,22 @@
         align-items: center;
       }
 
+      .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+
+      }
+
       .card {
         display: flex;
         flex-direction: row;
-        justify-content: center;
         align-items: center;
         border: 1px solid #f2f2f2;
         padding: 10px;
@@ -32,8 +44,6 @@
       .thum {
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
         border: 1px solid #f2f2f2;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -54,6 +64,10 @@
         background-color: #3d9c3d;
       }
 
+      .bg-unset {
+        background-color: #9ed0a5;
+      }
+
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -64,26 +78,108 @@
     </style>
   </head>
   <body>
-    <div class="ticker">
-      {% for ticker in tickers %}
-      <div class="card">
-        <div
-          class="thum {{data[ticker].info['insiderColor']}}"
-          id="{{id}}"
-        ></div>
+    <div class="row">
 
-        <div class="thum {{data[ticker].info['institutionColor']}}"></div>
-
-        <div class="thum {{data[ticker].info['epsColor']}}"></div>
-
-        <!-- full time employees -->
-        <div class="thum {{data[ticker].info['employeesColor']}}"></div>
-
-        <!-- market cap -->
-        <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
-        <a href="/{{ticker}}">{{ticker}}</a>
+      <div class="column">
+        <div class="ticker">
+          {% for ticker in tickers %}
+          {% if data[ticker].info['bg'] == 'bg-unset' %}
+          <a href="/{{ticker}}"
+            ><div class="card {{data[ticker].info['bg']}}">
+              <div
+                class="thum {{data[ticker].info['insiderColor']}}"
+                id="{{id}}"
+              ></div>
+    
+              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['epsColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
+              {{ticker}}
+            </div></a
+          >
+          {% endif %} {% endfor %}
+          </div>
+          <div class="ticker">
+          {% for ticker in tickers %}
+          <!-- if ticker bg is success then put it next -->
+          {% if data[ticker].info['bg'] == 'bg-success' %}
+          <a href="/{{ticker}}"
+            ><div class="card {{data[ticker].info['bg']}}">
+              <div
+                class="thum {{data[ticker].info['insiderColor']}}"
+                id="{{id}}"
+              ></div>
+    
+              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['epsColor']}}"></div>
+    
+              <!-- full time employees -->
+              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
+    
+              <!-- market cap -->
+              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
+              {{ticker}}
+            </div></a
+          >
+          {% endif %} {% endfor %}
+          </div>
+          <div class="ticker">
+          {% for ticker in tickers %}
+          <!-- if ticker bg is warning then put it next -->
+          {% if data[ticker].info['bg'] == 'bg-warning' %}
+          <a href="/{{ticker}}"
+            ><div class="card {{data[ticker].info['bg']}}">
+              <div
+                class="thum {{data[ticker].info['insiderColor']}}"
+                id="{{id}}"
+              ></div>
+    
+              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['epsColor']}}"></div>
+    
+              <!-- full time employees -->
+              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
+    
+              <!-- market cap -->
+              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
+              {{ticker}}
+            </div></a
+          >
+          {% endif %} {% endfor %}
+          </div>
+          <div class="ticker">
+          {% for ticker in tickers %}
+          <!-- if ticker bg is danger then put it next -->
+          {% if data[ticker].info['bg'] == 'bg-danger' %}
+          <a href="/{{ticker}}"
+            ><div class="card {{data[ticker].info['bg']}}">
+              <div
+                class="thum {{data[ticker].info['insiderColor']}}"
+                id="{{id}}"
+              ></div>
+    
+              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
+    
+              <div class="thum {{data[ticker].info['epsColor']}}"></div>
+    
+              <!-- full time employees -->
+              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
+    
+              <!-- market cap -->
+              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
+              {{ticker}}
+            </div></a
+          >
+          {% endif %} {% endfor %}
+          </div>
+        </div>
       </div>
-      {% endfor %}
     </div>
   </body>
 </html>
