@@ -6,180 +6,82 @@
     <title>Ticker List</title>
 
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
-    <style>
-      .ticker {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-
-      .column {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .row {
-        display: flex;
-        flex-direction: row;
-
-      }
-
-      .card {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border: 1px solid #f2f2f2;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin: 10px;
-        width: 200px;
-        height: 100px;
-        color: darkblue;
-        background-color: #9ed0a5;
-      }
-
-      .thum {
-        display: flex;
-        flex-direction: row;
-        border: 1px solid #f2f2f2;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin: 5px;
-        width: 20px;
-        height: 20px;
-      }
-
-      .bg-danger {
-        background-color: #f44949;
-      }
-
-      .bg-warning {
-        background-color: #f3f351;
-      }
-
-      .bg-success {
-        background-color: #3d9c3d;
-      }
-
-      .bg-unset {
-        background-color: #9ed0a5;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #2077b5;
-        color: #b5b4b4;
-      }
-    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="row">
-
-      <div class="column">
-        <div class="ticker">
-          {% for ticker in tickers %}
-          {% if data[ticker].info['bg'] == 'bg-unset' %}
-          <a href="/{{ticker}}"
-            ><div class="card {{data[ticker].info['bg']}}">
-              <div
-                class="thum {{data[ticker].info['insiderColor']}}"
-                id="{{id}}"
-              ></div>
-    
-              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['epsColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
-              {{ticker}}
-            </div></a
-          >
-          {% endif %} {% endfor %}
+    <div class="container mx-auto">
+      {% for ticker in tickers %}
+      <a href="/{{ticker}}">
+        <div class="card bg-unset w-4/5 mx-auto my-5 p-5" id="{{id}}">
+          <h2 class="text-2xl">{{ticker}}</h2>
+          <div class="break"></div>
+          <div class="flex">
+            <div
+              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data[ticker].info['insiderColor']}}"
+            >
+              <p class="text-xl font-bold">Held by Insiders:</p>
+              {{data[ticker].info['heldPercentInsidersDisplay']}}
+            </div>
+            <div
+              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data[ticker].info['institutionColor']}}"
+            >
+              <p class="text-xl font-bold">Held by Institutions:</p>
+              {{data[ticker].info['heldPercentInstitutionsDisplay']}}
+            </div>
+            <div
+              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data[ticker].info['epsColor']}}"
+            >
+              <p class="text-xl font-bold">EPS:</p>
+              {{data[ticker].info['trailingEps']}}
+            </div>
+            <div
+              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data[ticker].info['employeesColor']}}"
+            >
+              <p class="text-xl font-bold">Employees:</p>
+              {{data[ticker].info['fullTimeEmployees']}}
+            </div>
+            <div
+              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data[ticker].info['marketCapColor']}}"
+            >
+              <p class="text-xl font-bold">Market Cap:</p>
+              {{data[ticker].info['marketCapDisplay']}}
+            </div>
           </div>
-          <div class="ticker">
-          {% for ticker in tickers %}
-          <!-- if ticker bg is success then put it next -->
-          {% if data[ticker].info['bg'] == 'bg-success' %}
-          <a href="/{{ticker}}"
-            ><div class="card {{data[ticker].info['bg']}}">
-              <div
-                class="thum {{data[ticker].info['insiderColor']}}"
-                id="{{id}}"
-              ></div>
-    
-              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['epsColor']}}"></div>
-    
-              <!-- full time employees -->
-              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
-    
-              <!-- market cap -->
-              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
-              {{ticker}}
-            </div></a
-          >
-          {% endif %} {% endfor %}
+          <div class="break"></div>
+          <div class="flex">
+            <div class="img">
+              <img
+                src="/static/{{ticker}}/intraday.png"
+                style="width: 500px; height: 300px"
+              />
+            </div>
+            <!-- The News -->
+            <div class="w-1/2 p-5 mx-2 max-h-72 overflow-scroll">
+              {% for article in data[ticker].news %}
+              <div class="flex flex-col justify-between">
+                <span class="text-sm text-gray-500"
+                  >{{ article.publisher }}: {{
+                  article.providerPublishTimeDisplay }}</span
+                >
+                <a
+                  href="{{ article.link }}"
+                  target="_blank"
+                  class="text-darkblue text-lg"
+                  >{{ article.title }}</a
+                >
+              </div>
+              <hr class="h-px my-1 bg-gray-100 border-0 dark:bg-gray-700" />
+              {% endfor %}
+            </div>
           </div>
-          <div class="ticker">
-          {% for ticker in tickers %}
-          <!-- if ticker bg is warning then put it next -->
-          {% if data[ticker].info['bg'] == 'bg-warning' %}
-          <a href="/{{ticker}}"
-            ><div class="card {{data[ticker].info['bg']}}">
-              <div
-                class="thum {{data[ticker].info['insiderColor']}}"
-                id="{{id}}"
-              ></div>
-    
-              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['epsColor']}}"></div>
-    
-              <!-- full time employees -->
-              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
-    
-              <!-- market cap -->
-              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
-              {{ticker}}
-            </div></a
-          >
-          {% endif %} {% endfor %}
-          </div>
-          <div class="ticker">
-          {% for ticker in tickers %}
-          <!-- if ticker bg is danger then put it next -->
-          {% if data[ticker].info['bg'] == 'bg-danger' %}
-          <a href="/{{ticker}}"
-            ><div class="card {{data[ticker].info['bg']}}">
-              <div
-                class="thum {{data[ticker].info['insiderColor']}}"
-                id="{{id}}"
-              ></div>
-    
-              <div class="thum {{data[ticker].info['institutionColor']}}"></div>
-    
-              <div class="thum {{data[ticker].info['epsColor']}}"></div>
-    
-              <!-- full time employees -->
-              <div class="thum {{data[ticker].info['employeesColor']}}"></div>
-    
-              <!-- market cap -->
-              <div class="thum {{data[ticker].info['marketCapColor']}}"></div>
-              {{ticker}}
-            </div></a
-          >
-          {% endif %} {% endfor %}
-          </div>
+          <div class="break"></div>
         </div>
-      </div>
+      </a>
+      <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+      {% endfor %}
     </div>
   </body>
 </html>
