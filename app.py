@@ -19,7 +19,7 @@ data = {}
 def index():
 
     # these should be based on percent day gainers and losers
-    tickers = getHalts()
+    tickers = getPreMarketMovers()
 
     
     #get info for each one and store in top level dict using get_financial_data
@@ -27,23 +27,36 @@ def index():
         if ticker not in data:
             data[ticker] = get_financial_data(ticker)
             data[ticker].info['bg'] = 'bg-unset'
+
+    
+    
     
     #render the template with the tickers and data
     return render_template('index.html', tickers=tickers, data=data)
 
-# def getPreMarketMovers():
-#     #make request to the site using selenium headless
-#     url = 'https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/'
+def getPreMarketMovers():
+    url = 'https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/'
 
-#     chrome_options = Options()
-#     chrome_options.add_argument("--headless")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
 
-#     driver = webdriver.Chrome(options=chrome_options)
-#     driver.get(url)
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get(url)
 
-#     sleep(2)
+    tableDiv = driver.find_element("xpath","//*[@id='js-category-content']/div[2]/div/div[4]/div[2]/div[2]")
 
-#     table = driver.find_element("xpath","//*[@id='pageContainer']/div[2]/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[2]/div/div
+    table = tableDiv.find_element(by=By.TAG_NAME, value="table")
+
+    rows = table.find_elements(by=By.TAG_NAME, value="tr")
+
+    tickers = []
+    for row in rows:
+        rowKey = row.get_attribute('data-rowkey')
+        if rowKey is not None:
+            tickers.append(rowKey.split(':')[1])
+
+    return tickers
+
 
 
 def getHalts():

@@ -11,72 +11,74 @@
   </head>
   <body>
     <div class="container mx-auto">
-      <a href="/{{ticker}}">
-        <div class="card bg-unset mx-auto my-5 p-5" id="{{id}}">
-          <h2 class="text-2xl">{{data.symbol}}</h2>
-          <div class="break"></div>
-          <div class="flex">
-            <div
-              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.insiderColor}}"
-            >
-              <p class="text-xl font-bold">Held by Insiders:</p>
-              {{data.heldPercentInsidersDisplay}}
-            </div>
-            <div
-              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.institutionColor}}"
-            >
-              <p class="text-xl font-bold">Held by Institutions:</p>
-              {{data.heldPercentInstitutionsDisplay}}
-            </div>
-            <div
-              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.epsColor}}"
-            >
-              <p class="text-xl font-bold">EPS:</p>
-              {{data.trailingEps}}
-            </div>
-            <div
-              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.employeesColor}}"
-            >
-              <p class="text-xl font-bold">Employees:</p>
-              {{data.fullTimeEmployees}}
-            </div>
-            <div
-              class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.marketCapColor}}"
-            >
-              <p class="text-xl font-bold">Market Cap:</p>
-              {{data.marketCapDisplay}}
-            </div>
+      <div class="card bg-unset mx-auto my-5 p-5" id="{{id}}">
+        <h2 class="text-4xl">{{data.symbol}}</h2>
+        <div class="break"></div>
+        <div class="flex">
+          <div
+            class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.insiderColor}}"
+          >
+            <p class="text-xl font-bold">Held by Insiders:</p>
+            {{data.heldPercentInsidersDisplay}}
           </div>
-          <div class="break"></div>
-          <div class="flex">
-            <div class="img">
-              <img
-                src="/static/{{ticker}}/intraday.png"
-                style="width: 500px; height: 300px"
-              />
-            </div>
-            <!-- The News -->
-            <div class="w-1/2 p-5 mx-2 max-h-72 overflow-scroll">
-              {% for article in data.news %}
-              <div class="flex flex-col justify-between">
-                <span class="text-sm text-gray-500"
-                  >{{ article.publisher }}: {{
-                  article.providerPublishTimeDisplay }}</span
-                >
-                <a
-                  href="{{ article.link }}"
-                  target="_blank"
-                  class="text-darkblue text-lg"
-                  >{{ article.title }}</a
-                >
-              </div>
-              <hr class="h-px my-1 bg-gray-100 border-0 dark:bg-gray-700" />
-              {% endfor %}
-            </div>
+          <div
+            class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.institutionColor}}"
+          >
+            <p class="text-xl font-bold">Held by Institutions:</p>
+            {{data.heldPercentInstitutionsDisplay}}
           </div>
-          <div class="break"></div>
+          <div
+            class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.epsColor}}"
+          >
+            <p class="text-xl font-bold">EPS:</p>
+            {{data.trailingEps}}
+          </div>
+          <div
+            class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.employeesColor}}"
+          >
+            <p class="text-xl font-bold">Employees:</p>
+            {{data.fullTimeEmployees}}
+          </div>
+          <div
+            class="w-1/5 p-5 rounded-md border h-32 mx-2  my-5 {{data.marketCapColor}}"
+          >
+            <p class="text-xl font-bold">Market Cap:</p>
+            {{data.marketCapDisplay}}
+          </div>
         </div>
-      </a>
+        <div class="break"></div>
+        <div class="flex">
+          <div class="img">
+            <img
+              src="/static/{{data.symbol}}/intraday.png"
+              style="width: 500px; height: 300px"
+            />
+            <img
+              src="/static/{{data.symbol}}/last_year.png"
+              style="width: 500px; height: 300px"
+            />
+          </div>
+          <!-- The News -->
+          <div class="w-1/2 p-5 mx-2 max-h-72 overflow-scroll">
+            {% for article in news %}
+            <div class="flex flex-col justify-between">
+              <span class="text-sm text-gray-500"
+                >{{ article.publisher }}: {{ article.providerPublishTimeDisplay
+                }}</span
+              >
+              <a
+                href="{{ article.link }}"
+                target="_blank"
+                class="text-darkblue text-lg"
+                >{{ article.title }}</a
+              >
+            </div>
+            <hr class="h-px my-1 bg-gray-100 border-0 dark:bg-gray-700" />
+            {% endfor %}
+          </div>
+        </div>
+        <div class="break"></div>
+      </div>
       <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
       <div class="flex flex-wrap items-center mt-8">
         <div
