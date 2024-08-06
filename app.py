@@ -18,6 +18,30 @@ data = {}
 @app.route('/')
 def index():
 
+    #if it is after hours, get the premarket movers, otherwise fetch the halts
+    # if pd.Timestamp.now().hour > 16:
+    #     tickers = getPreMarketMovers()
+    # else:
+    #     tickers = getHalts()
+
+    tickers = ['VSEE', 'OSTX', 'MKDW', 'DRMA', 'TNDM', 'UBXG', 'IAS']
+
+    
+    #get info for each one and store in top level dict using get_financial_data
+    for ticker in tickers:
+        if ticker not in data:
+            data[ticker] = get_financial_data(ticker)
+            data[ticker].info['bg'] = 'bg-unset'
+
+    
+    
+    
+    #render the template with the tickers and data
+    return render_template('index.html', tickers=tickers, data=data)
+
+@app.route('/premarket')
+def pre():
+
     # these should be based on percent day gainers and losers
     tickers = getPreMarketMovers()
 
@@ -33,6 +57,26 @@ def index():
     
     #render the template with the tickers and data
     return render_template('index.html', tickers=tickers, data=data)
+
+@app.route('/halts')
+def halts():
+
+    # these should be based on percent day gainers and losers
+    tickers = getHalts()
+
+    
+    #get info for each one and store in top level dict using get_financial_data
+    for ticker in tickers:
+        if ticker not in data:
+            data[ticker] = get_financial_data(ticker)
+            data[ticker].info['bg'] = 'bg-unset'
+
+    
+    
+    
+    #render the template with the tickers and data
+    return render_template('index.html', tickers=tickers, data=data)
+
 
 def getPreMarketMovers():
     url = 'https://www.tradingview.com/markets/stocks-usa/market-movers-pre-market-gainers/'
@@ -53,14 +97,21 @@ def getPreMarketMovers():
     for row in rows:
         rowKey = row.get_attribute('data-rowkey')
         if rowKey is not None:
-            tickers.append(rowKey.split(':')[1])
+
+            symbol = rowKey.split(':')[1]
+            tickerData = row.find_elements(by=By.TAG_NAME, value="td")
+            percentMove = tickerData[1].text # format = +72.97%
+            price =  tickerData[6].text # format = 1.34 USD
+
+            #if the percentMove is > 20 and the price is less than 30 and greater than 1, add it to the list
+            if float(percentMove[:-1]) > 20 and float(price[:-4]) < 30 and float(price[:-4]) > 1:
+                tickers.append(symbol)
 
     return tickers
 
 
 
 def getHalts():
-    #make request to the site using selenium headless
     url = 'https://www.nasdaqtrader.com/trader.aspx?id=tradehalts'
 
     chrome_options = Options()
@@ -73,7 +124,6 @@ def getHalts():
 
     table = driver.find_element("xpath","//*[@id='divTradeHaltResults']")
 
-    #parse the table
     rows = table.find_elements(by=By.TAG_NAME, value="tr")
 
 
